@@ -176,7 +176,9 @@ var stateSums = dataset.bankBalances.reduce(reduceToStates2,{});;
   where the sum of amounts in the state is
     less than 1,000,000
  */
-var lowerSumStates = null;
+var lowerSumStates = Object.keys(stateSums).filter(function(element){
+  return  stateSums[element] < 1000000;
+});
 
 /*
   set higherStateSums to be the sum of
@@ -184,7 +186,11 @@ var lowerSumStates = null;
     where the sum of amounts in the state is
       greater than 1,000,000
  */
-var higherStateSums = null;
+var higherStateSums = Object.keys(stateSums).filter(function(element){
+  return  stateSums[element] > 1000000;
+}).reduce(function(prev,current){
+  return prev + stateSums[current];
+},0);
 
 /*
   set areStatesInHigherStateSum to be true if
@@ -198,7 +204,14 @@ var higherStateSums = null;
     Delaware
   false otherwise
  */
-var areStatesInHigherStateSum = null;
+var areStatesInHigherStateSum = Object.keys(stateSums).every(function(element,index,array){
+
+    if(element === 'WI'||element ==='IL'||element ==='WY'||element ==='OH'||element ==='GA'||element ==='DE'){
+
+      return stateSums[element] > 2550000;
+    }
+
+});
 
 /*
   set anyStatesInHigherStateSum to be true if
@@ -207,12 +220,19 @@ var areStatesInHigherStateSum = null;
     Wisconsin
     Illinois
     Wyoming
-    Ohio
+    Ohiog
     Georgia
     Delaware
   false otherwise
  */
-var anyStatesInHigherStateSum = null;
+var anyStatesInHigherStateSum = Object.keys(stateSums).some(function(element,index,array){
+
+    if(element === 'WI'||element ==='IL'||element ==='WY'||element ==='OH'||element ==='GA'||element ==='DE'){
+
+      return stateSums[element] > 2550000;
+    }
+
+});
 
 
 module.exports = {
